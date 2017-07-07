@@ -1,0 +1,35 @@
+version: "2"
+syncs:
+  #IMPORTANT: ensure this name is unique and does not match your other application container name
+  llvm-sync: #tip: add -sync and you keep consistent names als a convention
+    src: '~/Workspace/repos/llvm'
+    sync_excludes: ['.DS_Store', '.gitignore', '.git', 'build', 'Inputs', '.arcconfig']
+    sync_uid: 0 # the files should be own by root in the target cointainer
+  #llvm-new-sync: #tip: add -sync and you keep consistent names als a convention
+  #  src: '~/Workspace/repos/llvm-new'
+  #  sync_excludes: ['.DS_Store', '.gitignore', '.git', 'build', 'Inputs', '.arcconfig']
+  #  sync_uid: 0 # the files should be own by root in the target cointainer
+  libomptarget-sync: #tip: add -sync and you keep consistent names als a convention
+    src: '~/Workspace/repos/libomptarget'
+    sync_excludes: ['*.DS_Store', '.gitignore', '.git', 'build', 'target', '.arcconfig']
+    sync_uid: 0 # the files should be own by root in the target cointainer
+  #unibench-sync: #tip: add -sync and you keep consistent names als a convention
+  #  src: '~/Workspace/repos/Unibench'
+  #  sync_excludes: ['*.DS_Store', '.gitignore', '.git', 'build', '.arcconfig']
+  #  sync_uid: 0 # the files should be own by root in the target cointainer
+  #ompcloud-test-sync: # tip: add -sync and you keep consistent names als a convention
+  #  src: '~/Workspace/repos/ompcloud-test'
+  #  sync_excludes: ['*.DS_Store', '.gitignore', '.git', 'build', '.arcconfig']
+  #  sync_uid: 0 # the files should be own by root in the target cointainer
+  ompcloud-tmp-sync: # tip: add -sync and you keep consistent names als a convention
+    src: '~/Workspace/ompcloud-tmp'
+    sync_excludes: ['*.DS_Store', '.gitignore', '.git', 'build', '.arcconfig', '*target']
+    sync_uid: 0 # the files should be own by root in the target cointainer
+  ompcloud-backup-sync: # tip: add -sync and you keep consistent names als a convention
+    src: '~/Workspace/repos/ompcloud-backup/'
+    sync_excludes: ['*.DS_Store', '.gitignore', '.git', '.arcconfig']
+    sync_uid: 0 # the files should be own by root in the target cointainer
+  libhdfs3-sync: # tip: add -sync and you keep consistent names als a convention
+    src: '~/Workspace/repos/libhdfs3'
+    sync_excludes: ['*.DS_Store', '.gitignore', '.git', 'build', '.arcconfig']
+    sync_uid: 0 # the files should be own by root in the target cointainer

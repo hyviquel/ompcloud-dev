@@ -1,0 +1,34 @@
+# this is our development docker-compose building on top of the prodicker docker-compose, just mounting
+# the sync image - not redefining anything else
+
+version: "2"
+services:
+  ompcloud-app:
+    volumes:
+      - llvm-sync:/opt/llvm:nocopy
+#      - llvm-new-sync:/opt/llvm-new:nocopy
+      - libomptarget-sync:/opt/libomptarget:nocopy
+#      - unibench-sync:/opt/Unibench:nocopy
+#      - ompcloud-test-sync:/opt/ompcloud-test:nocopy
+      - ompcloud-tmp-sync:/opt/ompcloud-tmp:nocopy
+      - ompcloud-backup-sync:/opt/ompcloud:nocopy
+      - libhdfs3-sync:/opt/libhdfs3/:nocopy
+
+# that the important thing
+volumes:
+  llvm-sync:
+    external: true
+#  llvm-new-sync:
+#    external: true
+  libomptarget-sync:
+    external: true
+#  unibench-sync:
+#    external: true
+#  ompcloud-test-sync:
+#    external: true
+  ompcloud-tmp-sync:
+    external: true
+  ompcloud-backup-sync:
+    external: true
+  libhdfs3-sync:
+    external: true
