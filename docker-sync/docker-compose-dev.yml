@@ -6,7 +6,7 @@ services:
   ompcloud-app:
     volumes:
       - llvm-sync:/opt/llvm:nocopy
-#      - llvm-new-sync:/opt/llvm-new:nocopy
+      - llvm-new-sync:/opt/llvm-new:nocopy
       - libomptarget-sync:/opt/libomptarget:nocopy
 #      - unibench-sync:/opt/Unibench:nocopy
 #      - ompcloud-test-sync:/opt/ompcloud-test:nocopy
@@ -18,8 +18,8 @@ services:
 volumes:
   llvm-sync:
     external: true
-#  llvm-new-sync:
-#    external: true
+  llvm-new-sync:
+    external: true
   libomptarget-sync:
     external: true
 #  unibench-sync:
