@@ -3,6 +3,6 @@
 version: "2"
 services:
   ompcloud-app:
-    image: hyviquel/ompcloud-dev:v1
+    image: ompcloud/ompcloud-dev:latest
     container_name: 'ompcloud-dev'
     command: ['bash', '-c', '/sbin/my_init']
