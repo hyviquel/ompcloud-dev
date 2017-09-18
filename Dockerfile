@@ -69,7 +69,7 @@ RUN cd $CLOUD_TEMP; sbt assembly
 
 # Install hadoop and spark
 RUN wget -nv -P /opt/ $SPARK_REPO/spark-$SPARK_VERSION-bin-hadoop$SPARK_HADOOP_VERSION.tgz
-RUN wget -nv -P /opt/ $HADOOP_REPO/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
+RUN wget -nv -P /opt/ $HADOOP_REPO/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
 RUN cd /opt/; tar -zxf /opt/spark-$SPARK_VERSION-bin-hadoop$SPARK_HADOOP_VERSION.tgz
 RUN cd /opt/; tar -zxf /opt/hadoop-$HADOOP_VERSION.tar.gz
 RUN rm /opt/spark-$SPARK_VERSION-bin-hadoop$SPARK_HADOOP_VERSION.tgz /opt/hadoop-$HADOOP_VERSION.tar.gz
