@@ -25,12 +25,11 @@ ENV LIBHDFS3_CONF $OMPCLOUD_CONF_DIR/hdfs-client.xml
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 
-ENV HADOOP_REPO http://apache.mirrors.tds.net
+ENV APACHE_MIRROR http://apache.mirrors.tds.net
 ENV HADOOP_VERSION 2.7.4
 ENV HADOOP_HOME /opt/hadoop-$HADOOP_VERSION
 ENV HADOOP_CONF $HADOOP_HOME/etc/hadoop
 
-ENV SPARK_REPO http://d3kbcqa49mib13.cloudfront.net
 ENV SPARK_VERSION 2.2.0
 ENV SPARK_HADOOP_VERSION 2.7
 ENV SPARK_HOME /opt/spark-$SPARK_VERSION-bin-hadoop$SPARK_HADOOP_VERSION
@@ -68,8 +67,8 @@ ADD project-sbt/ $CLOUD_TEMP
 RUN cd $CLOUD_TEMP; sbt assembly
 
 # Install hadoop and spark
-RUN wget -nv -P /opt/ $SPARK_REPO/spark-$SPARK_VERSION-bin-hadoop$SPARK_HADOOP_VERSION.tgz
-RUN wget -nv -P /opt/ $HADOOP_REPO/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
+RUN wget -nv -P /opt/ $APACHE_MIRROR/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop$SPARK_HADOOP_VERSION.tgz
+RUN wget -nv -P /opt/ $APACHE_MIRROR/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
 RUN cd /opt/; tar -zxf /opt/spark-$SPARK_VERSION-bin-hadoop$SPARK_HADOOP_VERSION.tgz
 RUN cd /opt/; tar -zxf /opt/hadoop-$HADOOP_VERSION.tar.gz
 RUN rm /opt/spark-$SPARK_VERSION-bin-hadoop$SPARK_HADOOP_VERSION.tgz /opt/hadoop-$HADOOP_VERSION.tar.gz
