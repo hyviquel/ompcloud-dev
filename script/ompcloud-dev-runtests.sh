@@ -7,7 +7,7 @@ set -e
 UNIBENCH_BUILD_TEST="/opt/Unibench-build-test"
 TESTED_CC="$LLVM_BUILD/bin/clang"
 
-TEST_LIST="1,1,,1,2,4,5,6,7,8,13,15,16,18"
+TEST_LIST="2,2,,2,4,5,6,7,8,15,16,18"
 BENCHMARK_LIST="2,2,,2,4,9,11,14,15,18,19"
 
 CTEST_ARG="--output-on-failure"
