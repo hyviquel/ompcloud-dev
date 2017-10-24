@@ -12,7 +12,8 @@ services:
 #      - ompcloud-test-sync:/opt/ompcloud-test:nocopy
       - ompcloud-tmp-sync:/opt/ompcloud-tmp:nocopy
       - ompcloud-dev-sync:/opt/ompcloud:nocopy
-      - libhdfs3-sync:/opt/libhdfs3/:nocopy
+      - libhdfs3-sync:/opt/libhdfs3:nocopy
+      - hpccc-ompcloud-sync:/opt/hpccc-ompcloud:nocopy
 
 # that the important thing
 volumes:
@@ -31,4 +32,6 @@ volumes:
   ompcloud-dev-sync:
     external: true
   libhdfs3-sync:
+    external: true
+  hpccc-ompcloud-sync:
     external: true
