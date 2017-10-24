@@ -52,7 +52,7 @@ ENV AWS_PROFILE hyviquel
 ENV CGCLOUD_ME hyviquel-docker
 
 ENV LC_ALL en_US.UTF-8
-ENV PATH $PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$SPARK_HOME/bin:$LLVM_BUILD/bin
+ENV PATH $PATH:/usr/lib/ccache:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$SPARK_HOME/bin:$LLVM_BUILD/bin
 ENV LIBRARY_PATH $LIBOMPTARGET_BUILD/lib:$LLVM_BUILD/lib:/usr/local/lib
 ENV LD_LIBRARY_PATH $LIBOMPTARGET_BUILD/lib:$LLVM_BUILD/lib:/usr/local/lib
 ENV CPATH $LLVM_BUILD/projects/openmp/runtime/src:$CPATH
@@ -60,7 +60,7 @@ ENV CPATH $LLVM_BUILD/projects/openmp/runtime/src:$CPATH
 # Install dependencies
 COPY script/ompcloud-dev-install-dep.sh /opt/
 RUN /opt/ompcloud-dev-install-dep.sh
-RUN apt-get install -y openssh-server git wget gcc g++ cmake ninja-build
+RUN apt-get install -y openssh-server git wget gcc g++ cmake ninja-build ccache
 
 RUN mkdir $CLOUD_TEMP
 ADD project-sbt/ $CLOUD_TEMP
