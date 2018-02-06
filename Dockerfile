@@ -33,7 +33,8 @@ ENV SPARK_VERSION 2.2.0
 ENV SPARK_HADOOP_VERSION 2.7
 ENV SPARK_HOME /opt/spark-$SPARK_VERSION-bin-hadoop$SPARK_HADOOP_VERSION
 
-ENV WORKON_HOME /opt/virtualenvs
+ENV WORKON_HOME $OMPCLOUD_INSTALL_DIR/virtualenvs
+ENV CGCLOUD_HOME $OMPCLOUD_INSTALL_DIR/cgcloud
 ENV CGCLOUD_PLUGINS cgcloud.spark
 ENV CGCLOUD_ZONE sa-east-1a
 ENV AWS_PROFILE hyviquel
@@ -70,7 +71,7 @@ RUN service ssh start
 
 # Install virtualenv
 RUN pip install virtualenv virtualenvwrapper
-RUN mkdir -p $OMPCLOUD_INSTALL_DIR/virtualenvs
+RUN mkdir -p $WORKON_HOME
 RUN git clone -b spark-2.0 git://github.com/hyviquel/cgcloud.git $CGCLOUD_HOME
 
 # Install cgcloud
