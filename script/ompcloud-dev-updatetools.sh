@@ -6,11 +6,11 @@ set -e
 
 # Update LLVM/Clang
 echo "Update LLVM/Clang..."
-cd $LLVM_BUILD; ninja clang omp
+cd $OMPCLOUD_INSTALL_DIR/llvm-build; ninja clang omp
 
 # Update libomptarget
 echo "Update libomptarget..."
-cd $LIBOMPTARGET_BUILD; make
+cd $OMPCLOUD_INSTALL_DIR/libomptarget-build; make
 
 # Update Unibench
 #echo "Update Unibench..."

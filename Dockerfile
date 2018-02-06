@@ -13,15 +13,14 @@ RUN rm -f /etc/service/sshd/down
 # init system will auto-generate one during boot.
 RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 
+ENV OMPCLOUD_INSTALL_DIR /opt
+ENV OMPCLOUD_DIR $OMPCLOUD_INSTALL_DIR/ompcloud
+
 # Configuration options.
-ENV CGCLOUD_HOME /opt/cgcloud
-ENV LIBHDFS3_SRC /opt/libhdfs3
-ENV LIBHDFS3_BUILD /opt/libhdfs3-build
-ENV OMPCLOUD_CONF_DIR /opt/ompcloud/conf
-ENV OMPCLOUD_SCRIPT_DIR /opt/ompcloud/script
+ENV OMPCLOUD_CONF_PATH $OMPCLOUD_DIR/conf/cloud_local.ini
+ENV LIBHDFS3_CONF $OMPCLOUD_DIR/conf/hdfs-client.xml
+
 ENV CLOUD_TEMP /tmp/cloud
-ENV OMPCLOUD_CONF_PATH $OMPCLOUD_CONF_DIR/cloud_local.ini
-ENV LIBHDFS3_CONF $OMPCLOUD_CONF_DIR/hdfs-client.xml
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 
@@ -34,17 +33,6 @@ ENV SPARK_VERSION 2.2.0
 ENV SPARK_HADOOP_VERSION 2.7
 ENV SPARK_HOME /opt/spark-$SPARK_VERSION-bin-hadoop$SPARK_HADOOP_VERSION
 
-ENV LLVM_SRC /opt/llvm
-ENV LLVM_BUILD /opt/llvm-build
-ENV LIBOMPTARGET_SRC /opt/libomptarget
-ENV LIBOMPTARGET_BUILD /opt/libomptarget-build
-ENV OPENMP_SRC /opt/openmp
-ENV OPENMP_BUILD /opt/openmp-build
-ENV UNIBENCH_SRC /opt/Unibench
-ENV UNIBENCH_BUILD /opt/Unibench-build
-ENV OMPCLOUDTEST_SRC /opt/ompcloud-test
-ENV OMPCLOUDTEST_BUILD /opt/ompcloud-test-build
-
 ENV WORKON_HOME /opt/virtualenvs
 ENV CGCLOUD_PLUGINS cgcloud.spark
 ENV CGCLOUD_ZONE sa-east-1a
@@ -52,14 +40,16 @@ ENV AWS_PROFILE hyviquel
 ENV CGCLOUD_ME hyviquel-docker
 
 ENV LC_ALL en_US.UTF-8
-ENV PATH $PATH:/usr/lib/ccache:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$SPARK_HOME/bin:$LLVM_BUILD/bin
-ENV LIBRARY_PATH $LIBOMPTARGET_BUILD/lib:$LLVM_BUILD/lib:/usr/local/lib
-ENV LD_LIBRARY_PATH $LIBOMPTARGET_BUILD/lib:$LLVM_BUILD/lib:/usr/local/lib
-ENV CPATH $LLVM_BUILD/projects/openmp/runtime/src:$CPATH
+ENV PATH $PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$SPARK_HOME/bin:$OMPCLOUD_INSTALL_DIR/llvm-build/bin
+ENV LIBRARY_PATH $OMPCLOUD_INSTALL_DIR/libomptarget-build/lib:$OMPCLOUD_INSTALL_DIR/llvm-build/lib:/usr/local/lib
+ENV LD_LIBRARY_PATH $OMPCLOUD_INSTALL_DIR/libomptarget-build/lib:$OMPCLOUD_INSTALL_DIR/llvm-build/lib:/usr/local/lib
+ENV CPATH $OMPCLOUD_INSTALL_DIR/llvm-build/projects/openmp/runtime/src:$CPATH
+
+ENV CCACHE_DIR $OMPCLOUD_INSTALL_DIR/ompcloud/ccache
 
 # Install dependencies
-COPY script/ompcloud-dev-install-dep.sh /opt/
-RUN /opt/ompcloud-dev-install-dep.sh
+COPY script/ompcloud-dev-install-dep.sh $OMPCLOUD_INSTALL_DIR/
+RUN $OMPCLOUD_INSTALL_DIR/ompcloud-dev-install-dep.sh
 RUN apt-get install -y openssh-server git wget gcc g++ cmake ninja-build ccache
 
 RUN mkdir $CLOUD_TEMP
@@ -67,11 +57,11 @@ ADD project-sbt/ $CLOUD_TEMP
 RUN cd $CLOUD_TEMP; sbt assembly
 
 # Install hadoop and spark
-RUN wget -nv -P /opt/ $APACHE_MIRROR/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop$SPARK_HADOOP_VERSION.tgz
-RUN wget -nv -P /opt/ $APACHE_MIRROR/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
-RUN cd /opt/; tar -zxf /opt/spark-$SPARK_VERSION-bin-hadoop$SPARK_HADOOP_VERSION.tgz
-RUN cd /opt/; tar -zxf /opt/hadoop-$HADOOP_VERSION.tar.gz
-RUN rm /opt/spark-$SPARK_VERSION-bin-hadoop$SPARK_HADOOP_VERSION.tgz /opt/hadoop-$HADOOP_VERSION.tar.gz
+RUN wget -nv -P $OMPCLOUD_INSTALL_DIR/ $APACHE_MIRROR/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop$SPARK_HADOOP_VERSION.tgz
+RUN wget -nv -P $OMPCLOUD_INSTALL_DIR/ $APACHE_MIRROR/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
+RUN cd $OMPCLOUD_INSTALL_DIR/; tar -zxf $OMPCLOUD_INSTALL_DIR/spark-$SPARK_VERSION-bin-hadoop$SPARK_HADOOP_VERSION.tgz
+RUN cd $OMPCLOUD_INSTALL_DIR/; tar -zxf $OMPCLOUD_INSTALL_DIR/hadoop-$HADOOP_VERSION.tar.gz
+RUN rm $OMPCLOUD_INSTALL_DIR/spark-$SPARK_VERSION-bin-hadoop$SPARK_HADOOP_VERSION.tgz $OMPCLOUD_INSTALL_DIR/hadoop-$HADOOP_VERSION.tar.gz
 
 # Configure SSH
 RUN ssh-keygen -q -N "" -t rsa -f ~/.ssh/id_rsa
@@ -80,7 +70,7 @@ RUN service ssh start
 
 # Install virtualenv
 RUN pip install virtualenv virtualenvwrapper
-RUN mkdir -p /opt/virtualenvs
+RUN mkdir -p $OMPCLOUD_INSTALL_DIR/virtualenvs
 RUN git clone -b spark-2.0 git://github.com/hyviquel/cgcloud.git $CGCLOUD_HOME
 
 # Install cgcloud
@@ -111,6 +101,8 @@ ADD conf-hdfs/config /root/.ssh
 # Install and configure ZSH
 RUN apt-get install -y zsh
 RUN bash -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+
+RUN echo 'export PATH="/usr/lib/ccache:$PATH"' >> /root/.zshrc
 
 ENV TERM xterm
 

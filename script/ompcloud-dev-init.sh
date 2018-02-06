@@ -5,20 +5,20 @@
 set -e
 
 # Build and install libhdfs3
-mkdir -p $LIBHDFS3_BUILD
-cd $LIBHDFS3_BUILD
-cmake $LIBHDFS3_SRC -DCMAKE_BUILD_TYPE=Release -GNinja
+mkdir -p $OMPCLOUD_INSTALL_DIR/libhdfs3-build
+cd $OMPCLOUD_INSTALL_DIR/libhdfs3-build
+cmake $OMPCLOUD_INSTALL_DIR/libhdfs3 -DCMAKE_BUILD_TYPE=Release -GNinja
 ninja
 ninja install
 
 # Build llvm/clang
-mkdir -p $LLVM_BUILD
-cd $LLVM_BUILD
-cmake $LLVM_SRC -DLLVM_TARGETS_TO_BUILD="X86" -DCMAKE_BUILD_TYPE=RelWithDebInfo -GNinja
+mkdir -p $OMPCLOUD_INSTALL_DIR/llvm-build
+cd $OMPCLOUD_INSTALL_DIR/llvm-build
+cmake $OMPCLOUD_INSTALL_DIR/llvm -DLLVM_TARGETS_TO_BUILD="X86" -DCMAKE_BUILD_TYPE=Release -GNinja
 ninja clang omp
 
 # Build libomptarget
-mkdir -p $LIBOMPTARGET_BUILD
-cd $LIBOMPTARGET_BUILD
-cmake -DCMAKE_BUILD_TYPE=Debug $LIBOMPTARGET_SRC
+mkdir -p $OMPCLOUD_INSTALL_DIR/libomptarget-build
+cd $OMPCLOUD_INSTALL_DIR/libomptarget-build
+cmake -DCMAKE_BUILD_TYPE=Debug $OMPCLOUD_INSTALL_DIR/libomptarget
 make
