@@ -46,8 +46,6 @@ ENV LIBRARY_PATH $OMPCLOUD_INSTALL_DIR/libomptarget-build/lib:$OMPCLOUD_INSTALL_
 ENV LD_LIBRARY_PATH $OMPCLOUD_INSTALL_DIR/libomptarget-build/lib:$OMPCLOUD_INSTALL_DIR/llvm-build/lib:/usr/local/lib
 ENV CPATH $OMPCLOUD_INSTALL_DIR/llvm-build/projects/openmp/runtime/src:$CPATH
 
-ENV CCACHE_DIR $OMPCLOUD_INSTALL_DIR/ompcloud/ccache
-
 # Install dependencies
 COPY script/ompcloud-dev-install-dep.sh $OMPCLOUD_INSTALL_DIR/
 RUN $OMPCLOUD_INSTALL_DIR/ompcloud-dev-install-dep.sh
