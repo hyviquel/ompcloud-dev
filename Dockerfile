@@ -102,6 +102,8 @@ RUN apt-get install -y zsh
 RUN bash -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 
 RUN echo 'export PATH="/usr/lib/ccache:$PATH"' >> /root/.zshrc
+RUN echo 'export LC_ALL=en_US.UTF-8' >> /root/.zshrc
+RUN echo 'export LANG=en_US.UTF-8' >> /root/.zshrc
 
 ENV TERM xterm
 
