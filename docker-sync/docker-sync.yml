@@ -36,7 +36,15 @@ syncs:
     src: '~/Workspace/repos/libhdfs3'
     sync_excludes: ['.DS_Store', '._*', '.git*', 'build', '.arcconfig']
     sync_uid: 0 # the files should be own by root in the target cointainer
-  hpccc-ompcloud-sync: # tip: add -sync and you keep consistent names als a convention
-    src: '~/Workspace/repos/hpccc-ompcloud'
+  hpccs-ompcloud-sync: # tip: add -sync and you keep consistent names als a convention
+    src: '~/Workspace/repos/hpccs-ompcloud'
+    sync_excludes: ['.DS_Store', '._*', '.git*', 'build', '.arcconfig', 'target', 'project']
+    sync_uid: 0 # the files should be own by root in the target cointainer
+  hpccs-mpi-sync: # tip: add -sync and you keep consistent names als a convention
+    src: '~/Workspace/repos/hpccs-mpi'
+    sync_excludes: ['.DS_Store', '._*', '.git*', '.arcconfig']
+    sync_uid: 0 # the files should be own by root in the target cointainer
+  raytracer-sync: # tip: add -sync and you keep consistent names als a convention
+    src: '~/Workspace/repos/Ray-Tracer'
     sync_excludes: ['.DS_Store', '._*', '.git*', 'build', '.arcconfig', 'target', 'project']
     sync_uid: 0 # the files should be own by root in the target cointainer

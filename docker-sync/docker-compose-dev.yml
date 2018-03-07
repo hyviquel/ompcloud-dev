@@ -13,7 +13,10 @@ services:
       - ompcloud-tmp-sync:/opt/ompcloud-tmp:nocopy
       - ompcloud-dev-sync:/opt/ompcloud:nocopy
       - libhdfs3-sync:/opt/libhdfs3:nocopy
-      - hpccc-ompcloud-sync:/opt/hpccc-ompcloud:nocopy
+      - hpccs-ompcloud-sync:/opt/hpccs-ompcloud:nocopy
+      - hpccs-mpi-sync:/opt/hpccs-mpi:nocopy
+      - raytracer-sync:/opt/Ray-Tracer:nocopy
+      - ccache:/root/.ccache:nocopy
 
 # that the important thing
 volumes:
@@ -33,5 +36,10 @@ volumes:
     external: true
   libhdfs3-sync:
     external: true
-  hpccc-ompcloud-sync:
+  hpccs-ompcloud-sync:
     external: true
+  hpccs-mpi-sync:
+    external: true
+  raytracer-sync:
+    external: true
+  ccache:
