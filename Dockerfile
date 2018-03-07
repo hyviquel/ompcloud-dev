@@ -49,7 +49,7 @@ ENV CPATH $OMPCLOUD_INSTALL_DIR/llvm-build/projects/openmp/runtime/src:$CPATH
 # Install dependencies
 COPY script/ompcloud-dev-install-dep.sh $OMPCLOUD_INSTALL_DIR/
 RUN $OMPCLOUD_INSTALL_DIR/ompcloud-dev-install-dep.sh
-RUN apt-get install -y openssh-server git wget gcc g++ cmake ninja-build ccache
+RUN apt-get install -y openssh-server wget ninja-build ccache
 
 RUN mkdir $CLOUD_TEMP
 ADD project-sbt/ $CLOUD_TEMP
